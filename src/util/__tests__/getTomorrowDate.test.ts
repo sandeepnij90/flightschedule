@@ -18,6 +18,7 @@ test('should return tomorrows date', () => {
     ]
 
     const result = getTomorrowDate()
+    
     const currentDate = new Date()
     const tomorrowDate = new Date(currentDate)
     tomorrowDate.setDate(tomorrowDate.getDate() + 1)

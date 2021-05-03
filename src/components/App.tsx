@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, Fragment, useState, useEffect } from 'react'
 import { getTomorrowDate } from '../util/getTomorrowDate'
 import { Datepicker } from './Datepicker'
 import styled from 'styled-components'
@@ -11,26 +11,73 @@ const PageWrapper = styled.div`
     margin: auto;
 `
 
+const Content = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    column-gap: 16px;
+`
+
+const Title = styled.h2`
+
+`
+
+const AircraftWrapper = styled.div`
+
+`
+
+const Placeholder = styled.div`
+    background-color: #cccccc;
+`
+
 export const App: FC = () => {
-    const {data: aircrafts, loading: aircraftsLoading } = useApi('aircrafts')
+    const { data: aircrafts, loading: aircraftsLoading } = useApi('aircrafts')
+    const [selectedAircraft, setSelectedAircraft] = useState('')
+
+    console.log({selectedAircraft})
     const flights = useApi('flights')
+
+    const selectAircraft = (ident: string) => {
+        setSelectedAircraft(ident)
+    }
+
+    useEffect(() => {
+        if (aircrafts.length) {
+            setSelectedAircraft(aircrafts[0].ident)
+        }
+    },[aircrafts])
 
     const renderAircrafts = () => {
         if (aircraftsLoading) {
             return (
-                <h1>loading...</h1>
+                <Fragment>
+                    <Title>Aircrafts</Title>
+                    <Placeholder />
+                </Fragment>
             )
         }
 
         return (
-            <Aircrafts aircrafts={aircrafts} /> 
+            <Fragment>
+                <Title>Aircrafts</Title>
+                <Aircrafts
+                aircrafts={aircrafts}
+                onSelectAircraft={selectAircraft}
+                selectedAircraft={selectedAircraft}
+                /> 
+            </Fragment>
         )
     }
     
     return (
         <PageWrapper>
             <Datepicker date={getTomorrowDate()} />
-            {renderAircrafts()}
+            <Content>
+                <AircraftWrapper>
+                    {renderAircrafts()}
+                </AircraftWrapper>
+                <div>test</div>
+                <div>test</div>
+            </Content>
         </PageWrapper>
     )
 }
