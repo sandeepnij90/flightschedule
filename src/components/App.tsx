@@ -18,13 +18,16 @@ const Content = styled.div`
     column-gap: 16px;
 `
 
-const Title = styled.h2`
+interface TitleProps {
+    center?: boolean; 
+}
 
+const Title = styled.h2<TitleProps>`
+    text-align: ${({ center }) => center ? 'center' : 'left'};
 `
 
-const AircraftWrapper = styled.div`
-
-`
+const AircraftWrapper = styled.div``
+const RotationWrapper = styled.div``
 
 const Placeholder = styled.div`
     background-color: #cccccc;
@@ -35,14 +38,19 @@ const FlightsWrapper = styled.div``
 export const App: FC = () => {
     const [selectedAircraft, setSelectedAircraft] = useState('')
     const [availableFlights, setAvailableFlights] = useState([])
+    const [schedule, setSchedule] = useState([])
 
     const { data: aircrafts, loading: aircraftsLoading } = useApi('aircrafts')
     const { data: flights, loading: flightsLoading } = useApi('flights')
 
+    const getAircraftName = () => {
+        if (aircrafts.length && selectedAircraft) {
+            const aircraft = aircrafts.find(({ ident }) => ident === selectedAircraft)
+            return aircraft.ident
+        }
+        return ''
+    }
 
-    console.log({
-        availableFlights
-    })
     const selectAircraft = (ident: string) => {
         setSelectedAircraft(ident)
     }
@@ -94,7 +102,9 @@ export const App: FC = () => {
                     <Title>Aircrafts</Title>
                     {renderAircrafts()}
                 </AircraftWrapper>
-                <div>test</div>
+                <RotationWrapper>
+                    <Title center>Rotation for {getAircraftName()}</Title>
+                </RotationWrapper>
                 <FlightsWrapper>
                     <Title>Flights</Title>
                     {renderFlights()}
