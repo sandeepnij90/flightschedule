@@ -33,11 +33,16 @@ const Placeholder = styled.div`
 const FlightsWrapper = styled.div``
 
 export const App: FC = () => {
-    const { data: aircrafts, loading: aircraftsLoading } = useApi('aircrafts')
-    const { data: flights, loading: flightsLoading} = useApi('flights')
     const [selectedAircraft, setSelectedAircraft] = useState('')
+    const [availableFlights, setAvailableFlights] = useState([])
+
+    const { data: aircrafts, loading: aircraftsLoading } = useApi('aircrafts')
+    const { data: flights, loading: flightsLoading } = useApi('flights')
 
 
+    console.log({
+        availableFlights
+    })
     const selectAircraft = (ident: string) => {
         setSelectedAircraft(ident)
     }
@@ -46,31 +51,36 @@ export const App: FC = () => {
         if (aircrafts.length) {
             setSelectedAircraft(aircrafts[0].ident)
         }
-    },[aircrafts])
+    }, [aircrafts])
+
+    useEffect(() => {
+        if (flights.length) {
+            setAvailableFlights(flights)
+        }
+    }, [flights])
 
     const renderAircrafts = () => {
         if (aircraftsLoading) {
             return (
-                <Fragment>
-                    <Title>Aircrafts</Title>
-                    <Placeholder />
-                </Fragment>
+                <Placeholder />
             )
         }
 
         return (
-            <Fragment>
-                <Title>Aircrafts</Title>
-                <Aircrafts
-                aircrafts={aircrafts}
-                onSelectAircraft={selectAircraft}
-                selectedAircraft={selectedAircraft}
-                /> 
-            </Fragment>
+            <Aircrafts
+            aircrafts={aircrafts}
+            onSelectAircraft={selectAircraft}
+            selectedAircraft={selectedAircraft}
+            /> 
         )
     }
 
     const renderFlights = () => {
+        if (flightsLoading) {
+            return (
+                <Placeholder />
+            )
+        }
         return (
             <Flights flights={flights} />
         )
@@ -81,6 +91,7 @@ export const App: FC = () => {
             <Datepicker date={getTomorrowDate()} />
             <Content>
                 <AircraftWrapper>
+                    <Title>Aircrafts</Title>
                     {renderAircrafts()}
                 </AircraftWrapper>
                 <div>test</div>

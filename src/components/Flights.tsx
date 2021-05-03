@@ -2,21 +2,23 @@ import React, { FC } from 'react'
 import styled from 'styled-components'
 
 const Flight = styled.div`
+  transition: 0.3s;
+    cursor: pointer;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    background-color: #d3f3f24D;
+    &:hover {
+        background-color: #d3f3f280;
+    };
+`
+
+const Details = styled.div`
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: 1fr 1fr;
     align-items;
     justify-content;
-    background-color: #d3f3f24D;
-    transition: 0.3s;
-    cursor: pointer;
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    &:hover {
-        background-color: #d3f3f280;
-    };
-
 `
 
 const Departure = styled.div`
@@ -41,8 +43,13 @@ const ArrivalTime = styled.div`
     grid-row: 2;
 `
 
+const ID = styled.div`
+    text-align: center;
+    padding-bottom: 8px;
+`
+
 interface Flights {
-    ident: string;
+    id: string;
     depaturetime: number;
     arrivaltime: number;
     readable_departure: string;
@@ -58,13 +65,16 @@ interface Props {
 export const Flights: FC<Props> = ({ flights }) => {
 
     const renderFlights = () => {
-        return flights.map(({ ident, origin, destination, readable_arrival, readable_departure}) => {
+        return flights.map(({ id, origin, destination, readable_arrival, readable_departure }) => {
             return (
-                <Flight key={ident} data-testid={`flight-${ident}`}>
-                    <Departure data-testid={`flight-${ident}-depature`}>{origin}</Departure>
-                    <DepartureTime data-testid={`flight-${ident}-depature-time`}>{readable_departure}</DepartureTime>
-                    <Arrival data-testid={`flight-${ident}-arrival`}>{destination}</Arrival>
-                    <ArrivalTime data-testid={`flight-${ident}-arrival-time`}>{readable_arrival}</ArrivalTime>
+                <Flight key={id}>
+                    <ID data-testid={`flight-${id}`}>{id}</ID>
+                <Details>
+                    <Departure data-testid={`flight-${id}-departure`}>{origin}</Departure>
+                    <DepartureTime data-testid={`flight-${id}-departure-time`}>{readable_departure}</DepartureTime>
+                    <Arrival data-testid={`flight-${id}-arrival`}>{destination}</Arrival>
+                    <ArrivalTime data-testid={`flight-${id}-arrival-time`}>{readable_arrival}</ArrivalTime>
+                </Details>
                 </Flight>
             )
         })

@@ -87,7 +87,8 @@ export const Aircrafts: FC<Props> = ({
             return (
                 <Wrapper
                     isSelected={isSelected} 
-                    key={ident} data-testid={`aircraft-${ident}`}
+                    key={ident}
+                    data-testid={`aircraft-${ident}`}
                     onClick={handleSelectAircraft(ident)}
                  >
                     <AircraftName key={ident}>
