@@ -4,10 +4,11 @@ import { Datepicker } from './Datepicker'
 import styled from 'styled-components'
 import { useApi } from '../hooks/useApi'
 import { Aircrafts } from './Aircrafts'
+import { Flights } from './Flights'
 
 const PageWrapper = styled.div`
     width: 100%;
-    max-width: 768px;
+    max-width: 960px;
     margin: auto;
 `
 
@@ -29,12 +30,13 @@ const Placeholder = styled.div`
     background-color: #cccccc;
 `
 
+const FlightsWrapper = styled.div``
+
 export const App: FC = () => {
     const { data: aircrafts, loading: aircraftsLoading } = useApi('aircrafts')
+    const { data: flights, loading: flightsLoading} = useApi('flights')
     const [selectedAircraft, setSelectedAircraft] = useState('')
 
-    console.log({selectedAircraft})
-    const flights = useApi('flights')
 
     const selectAircraft = (ident: string) => {
         setSelectedAircraft(ident)
@@ -67,7 +69,13 @@ export const App: FC = () => {
             </Fragment>
         )
     }
-    
+
+    const renderFlights = () => {
+        return (
+            <Flights flights={flights} />
+        )
+    }
+
     return (
         <PageWrapper>
             <Datepicker date={getTomorrowDate()} />
@@ -76,7 +84,10 @@ export const App: FC = () => {
                     {renderAircrafts()}
                 </AircraftWrapper>
                 <div>test</div>
-                <div>test</div>
+                <FlightsWrapper>
+                    <Title>Flights</Title>
+                    {renderFlights()}
+                </FlightsWrapper>
             </Content>
         </PageWrapper>
     )

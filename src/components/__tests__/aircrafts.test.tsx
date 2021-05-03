@@ -31,5 +31,4 @@ test('Should have a selected colour when an aircraft is selected', () => {
     const aircrafts = [{ ident: 'A1', base: '1', economySeats: 1, type: '1' }, { ident: 'A2', base: '1', economySeats: 1, type: '1' }]
     const { getByTestId } = render(<Aircrafts aircrafts={aircrafts} selectedAircraft="A1" onSelectAircraft={() => null} />)
     expect(getByTestId('aircraft-A1')).toHaveStyle('background-color: #d3f3f280')
-
 })
