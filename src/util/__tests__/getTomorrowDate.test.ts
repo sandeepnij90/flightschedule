@@ -1,4 +1,7 @@
-export const getTomorrowDate = () => {
+import '@testing-library/jest-dom'
+import { getTomorrowDate } from '../getTomorrowDate'
+
+test('should return tomorrows date', () => {
     const months = [
         'January',
         'February',
@@ -14,6 +17,7 @@ export const getTomorrowDate = () => {
         'December',
     ]
 
+    const result = getTomorrowDate()
     const currentDate = new Date()
     const tomorrowDate = new Date(currentDate)
     tomorrowDate.setDate(tomorrowDate.getDate() + 1)
@@ -21,5 +25,5 @@ export const getTomorrowDate = () => {
     const month = tomorrowDate.getMonth()
     const year = tomorrowDate.getFullYear()
 
-    return `${day} ${months[month]} ${year}`
-}
+    expect(result).toEqual(`${day} ${months[month]} ${year}`)
+})
