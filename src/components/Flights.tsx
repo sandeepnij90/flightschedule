@@ -48,7 +48,7 @@ const ID = styled.div`
     padding-bottom: 8px;
 `
 
-interface Flights {
+export interface FlightsStructure {
     id: string;
     depaturetime: number;
     arrivaltime: number;
@@ -59,21 +59,26 @@ interface Flights {
 }
 
 interface Props {
-    flights: Flights[]
+    flights: FlightsStructure[];
+    onSelectFlight: (flightInfo: FlightsStructure) => void;
 }
 
-export const Flights: FC<Props> = ({ flights }) => {
+export const Flights: FC<Props> = ({ flights, onSelectFlight }) => {
+
+    const handleSelect = (flight: FlightsStructure) => () => {
+        onSelectFlight(flight)
+    }
 
     const renderFlights = () => {
-        return flights.map(({ id, origin, destination, readable_arrival, readable_departure }) => {
+        return flights.map((flight) => {
             return (
-                <Flight key={id}>
-                    <ID data-testid={`flight-${id}`}>{id}</ID>
+                <Flight key={flight.id} onClick={handleSelect(flight)}>
+                    <ID data-testid={`flight-${flight.id}`}>{flight.id}</ID>
                 <Details>
-                    <Departure data-testid={`flight-${id}-departure`}>{origin}</Departure>
-                    <DepartureTime data-testid={`flight-${id}-departure-time`}>{readable_departure}</DepartureTime>
-                    <Arrival data-testid={`flight-${id}-arrival`}>{destination}</Arrival>
-                    <ArrivalTime data-testid={`flight-${id}-arrival-time`}>{readable_arrival}</ArrivalTime>
+                    <Departure data-testid={`flight-${flight.id}-departure`}>{flight.origin}</Departure>
+                    <DepartureTime data-testid={`flight-${flight.id}-departure-time`}>{flight.readable_departure}</DepartureTime>
+                    <Arrival data-testid={`flight-${flight.id}-arrival`}>{flight.destination}</Arrival>
+                    <ArrivalTime data-testid={`flight-${flight.id}-arrival-time`}>{flight.readable_arrival}</ArrivalTime>
                 </Details>
                 </Flight>
             )

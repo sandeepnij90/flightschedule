@@ -81,7 +81,6 @@ export const Aircrafts: FC<Props> = ({
     }
 
     const renderAircrafts = () => {
-
         return aircrafts.map(({ ident }) => {
             const isSelected = ident === selectedAircraft
             return (

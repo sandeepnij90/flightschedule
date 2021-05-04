@@ -4,7 +4,7 @@ import { Datepicker } from './Datepicker'
 import styled from 'styled-components'
 import { useApi } from '../hooks/useApi'
 import { Aircrafts } from './Aircrafts'
-import { Flights } from './Flights'
+import { Flights, FlightsStructure } from './Flights'
 
 const PageWrapper = styled.div`
     width: 100%;
@@ -44,7 +44,9 @@ export const App: FC = () => {
     const { data: flights, loading: flightsLoading } = useApi('flights')
 
     const getAircraftName = () => {
-        if (aircrafts.length && selectedAircraft) {
+        const hasAircrafts = aircrafts.length && selectedAircraft
+        
+        if (hasAircrafts) {
             const aircraft = aircrafts.find(({ ident }) => ident === selectedAircraft)
             return aircraft.ident
         }
@@ -53,6 +55,10 @@ export const App: FC = () => {
 
     const selectAircraft = (ident: string) => {
         setSelectedAircraft(ident)
+    }
+
+    const handleSelectFlight = (flight: FlightsStructure ) => {
+        setSchedule(prevSchedule => [...prevSchedule, flight])
     }
 
     useEffect(() => {
@@ -90,7 +96,7 @@ export const App: FC = () => {
             )
         }
         return (
-            <Flights flights={flights} />
+            <Flights flights={availableFlights} onSelectFlight={handleSelectFlight} />
         )
     }
 
