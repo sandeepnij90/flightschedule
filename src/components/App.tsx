@@ -39,6 +39,7 @@ export const App: FC = () => {
     const [selectedAircraft, setSelectedAircraft] = useState('')
     const [availableFlights, setAvailableFlights] = useState([])
     const [schedule, setSchedule] = useState([])
+    const [utilisation, setUtilisation] = useState(0);
 
     const { data: aircrafts, loading: aircraftsLoading } = useApi('aircrafts')
     const { data: flights, loading: flightsLoading } = useApi('flights')
@@ -76,6 +77,13 @@ export const App: FC = () => {
         }
     }, [flights])
 
+    useEffect(() => {
+        const totalTime = schedule.reduce((acc, {arrivaltime, departuretime}) => acc + (arrivaltime - departuretime), 0)
+        const util = Math.round((totalTime / 86400) * 100)
+        setUtilisation(util)
+        
+    }, [schedule])
+
     const renderAircrafts = () => {
         if (aircraftsLoading) {
             return (
@@ -88,6 +96,7 @@ export const App: FC = () => {
             aircrafts={aircrafts}
             onSelectAircraft={selectAircraft}
             selectedAircraft={selectedAircraft}
+            utilisation={utilisation}
             /> 
         )
     }

@@ -14,6 +14,7 @@ interface Props {
     aircrafts: Data[];
     selectedAircraft: string;
     onSelectAircraft: (ident: string) => void;
+    utilisation: number
 }
 
 interface WrapperProps {
@@ -56,14 +57,18 @@ const UtilisationText = styled.h5`
     margin: 0;
 `
 
-const UtilisationBar = styled.div`
+interface UtilisationBarProps {
+    width: number
+}
+
+const UtilisationBar = styled.div<UtilisationBarProps>`
     width: 100%;
     height: 5px;
     background-color: #ccc;
     position: relative;
     &:after {
         content: '';
-        width: 0;
+        width: ${({ width }) => width || '0'}%;
         height: 5px;
         position: absolute;
         background-color: green;
@@ -74,6 +79,7 @@ export const Aircrafts: FC<Props> = ({
     aircrafts,
     selectedAircraft,
     onSelectAircraft,
+    utilisation
 }) => {
 
     const handleSelectAircraft = (ident: string) => () => {
@@ -96,9 +102,9 @@ export const Aircrafts: FC<Props> = ({
                     </AircraftName>
                     <Utilisation>
                         <UtilisationText>
-                            Utilisation 0%
+                            Utilisation {utilisation}%
                         </UtilisationText>
-                        <UtilisationBar />
+                        <UtilisationBar width={utilisation}/>
                     </Utilisation>
                 </Wrapper>
             )
