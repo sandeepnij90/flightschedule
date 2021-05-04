@@ -6,6 +6,7 @@ import { useApi } from '../hooks/useApi'
 import { Aircrafts } from './Aircrafts'
 import { Flights, FlightsStructure } from './Flights'
 import { Rotation } from './Rotation'
+import { Timeline } from './Timeline'
 
 const PageWrapper = styled.div`
     width: 100%;
@@ -16,6 +17,7 @@ const PageWrapper = styled.div`
 const Content = styled.div`
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto auto;
     column-gap: 16px;
 `
 
@@ -35,6 +37,12 @@ const Placeholder = styled.div`
 `
 
 const FlightsWrapper = styled.div``
+
+const TimelineWrapper = styled.div`
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: 24px;
+`
 
 export const App: FC = () => {
     const [selectedAircraft, setSelectedAircraft] = useState('')
@@ -129,6 +137,9 @@ export const App: FC = () => {
                     <Title center>Rotation for {getAircraftName()}</Title>
                     <Rotation schedule={schedule} />
                 </RotationWrapper>
+                <TimelineWrapper>
+                    <Timeline schedule={schedule} />
+                </TimelineWrapper>
                 <FlightsWrapper>
                     <Title>Flights</Title>
                     {renderFlights()}

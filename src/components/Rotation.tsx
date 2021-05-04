@@ -88,5 +88,5 @@ export const Rotation:FC<Props>= ({schedule}) => {
         })
     }
 
-    return <Wrapper>{renderRotation()} <Timeline schedule={schedule} /></Wrapper>
+    return <Wrapper>{renderRotation()}</Wrapper>
 }
