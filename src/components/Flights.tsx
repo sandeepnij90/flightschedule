@@ -6,6 +6,11 @@ interface FlightProps {
     isDisabled: boolean;
 }
 
+const Wrapper = styled.div`
+    max-height: 500px;
+    overflow-y: auto;
+`
+
 const Flight = styled.div<FlightProps>`
     transition: 0.3s;
     cursor: pointer;
@@ -104,8 +109,8 @@ export const Flights: FC<Props> = ({ flights, onSelectFlight, schedule }) => {
     }
 
     return (
-        <div data-testid="flights">
+        <Wrapper data-testid="flights">
             {renderFlights()}
-        </div>
+        </Wrapper>
     )
 }
