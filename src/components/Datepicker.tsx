@@ -9,6 +9,7 @@ const Wrapper = styled.div`
     grid-template-columns: 20px max-content 20px;
     justify-content: center;
     justify-items: center;
+    margin: 24px 0;
 `
 
 const IconWrapper = styled.div`

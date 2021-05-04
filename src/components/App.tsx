@@ -1,7 +1,7 @@
 import React, { FC, Fragment, useState, useEffect } from 'react'
 import { getTomorrowDate } from '../util/getTomorrowDate'
 import { Datepicker } from './Datepicker'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { useApi } from '../hooks/useApi'
 import { Aircrafts } from './Aircrafts'
 import { Flights, FlightsStructure } from './Flights'
@@ -21,22 +21,27 @@ const Content = styled.div`
     column-gap: 16px;
 `
 
-interface TitleProps {
-    center?: boolean; 
-}
-
-const Title = styled.h2<TitleProps>`
-    text-align: ${({ center }) => center ? 'center' : 'left'};
+const Title = styled.h2`
+    text-align: center;
 `
 
-const AircraftWrapper = styled.div``
-const RotationWrapper = styled.div``
+const pulse = keyframes`
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+`
 
 const Placeholder = styled.div`
-    background-color: #cccccc;
+    width: 100%;
+    height: 300px;
+    border-radius: 8px;
+    background-color: #FAFAFA;
+    animation: ${pulse} 0.3s linear infinite;
 `
-
-const FlightsWrapper = styled.div``
 
 const TimelineWrapper = styled.div`
     grid-column: 2;
@@ -44,6 +49,10 @@ const TimelineWrapper = styled.div`
     margin-top: 24px;
 `
 
+const NoFlightsSelected = styled.h3`
+    text-align: center;
+    padding-top: 50px;
+`
 
 export const App: FC = () => {
     const [selectedAircraft, setSelectedAircraft] = useState('')
@@ -126,6 +135,18 @@ export const App: FC = () => {
         )
     }
 
+    const renderRotation = () => {
+        if (schedule.length) {
+            return (
+                <Rotation schedule={schedule} />
+            )
+        }
+
+        return (
+            <NoFlightsSelected>Please select a flight</NoFlightsSelected>
+        )
+    }
+
     const renderTimeline = () => {
         if (schedule.length) {
             return (
@@ -141,21 +162,21 @@ export const App: FC = () => {
         <PageWrapper>
             <Datepicker date={getTomorrowDate()} />
             <Content>
-                <AircraftWrapper>
+                <div>
                     <Title>Aircrafts</Title>
                     {renderAircrafts()}
-                </AircraftWrapper>
-                <RotationWrapper>
-                    <Title center>Rotation for {getAircraftName()}</Title>
-                    <Rotation schedule={schedule} />
-                </RotationWrapper>
+                </div>
+                <div>
+                    <Title>Rotation for {getAircraftName()}</Title>
+                    {renderRotation()}
+                </div>
                 <TimelineWrapper>
                     {renderTimeline()}
                 </TimelineWrapper>
-                <FlightsWrapper>
+                <div>
                     <Title>Flights</Title>
                     {renderFlights()}
-                </FlightsWrapper>
+                </div>
             </Content>
         </PageWrapper>
     )

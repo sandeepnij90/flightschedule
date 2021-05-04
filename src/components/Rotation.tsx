@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { FlightsStructure } from './Flights'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlaneDeparture, faPlaneArrival } from '@fortawesome/free-solid-svg-icons';
-import { Timeline } from './Timeline'
 
 const Wrapper = styled.div`
     max-height: 500px;
@@ -37,11 +36,6 @@ const Arrival = styled.div`
     column-gap: 8px;
 `
 
-
-const FlightName = styled.h4`
-
-`
-
 const IconWrapper = styled.div`
     grid-column: 1;
     grid-row: 1 / 3;
@@ -56,21 +50,16 @@ const Time = styled.div`
     grid-column: 2;
     grid-row: 2;
 `
-
-
 interface Props {
     schedule: FlightsStructure[]
 }
 
-
-
 export const Rotation:FC<Props>= ({schedule}) => {
-
     const renderRotation = () => {
         return schedule.map(({id, readable_arrival, readable_departure, origin, destination }) => {
             return (
                 <RotationItem key={id} data-testid={`rotation-${id}`}>
-                    <FlightName data-testid={`rotation-${id}-name`}>Flight: {id}</FlightName>
+                    <h4 data-testid={`rotation-${id}-name`}>Flight: {id}</h4>
                     <RotationDetails>
                         <Departure>
                             <IconWrapper><FontAwesomeIcon icon={faPlaneDeparture} /></IconWrapper>
