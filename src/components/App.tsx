@@ -6,7 +6,7 @@ import { useApi } from '../hooks/useApi'
 import { Aircrafts } from './Aircrafts'
 import { Flights, FlightsStructure } from './Flights'
 import { Rotation } from './Rotation'
-import { Timeline } from './Timeline'
+import { Timeline, TimelineKey } from './Timeline'
 
 const PageWrapper = styled.div`
     width: 100%;
@@ -43,6 +43,7 @@ const TimelineWrapper = styled.div`
     grid-row: 2;
     margin-top: 24px;
 `
+
 
 export const App: FC = () => {
     const [selectedAircraft, setSelectedAircraft] = useState('')
@@ -125,6 +126,17 @@ export const App: FC = () => {
         )
     }
 
+    const renderTimeline = () => {
+        if (schedule.length) {
+            return (
+                <Fragment>
+                    <Timeline schedule={schedule}/>
+                    <TimelineKey />
+                </Fragment>
+            )
+        }
+    }
+
     return (
         <PageWrapper>
             <Datepicker date={getTomorrowDate()} />
@@ -138,7 +150,7 @@ export const App: FC = () => {
                     <Rotation schedule={schedule} />
                 </RotationWrapper>
                 <TimelineWrapper>
-                    <Timeline schedule={schedule} />
+                    {renderTimeline()}
                 </TimelineWrapper>
                 <FlightsWrapper>
                     <Title>Flights</Title>

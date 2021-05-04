@@ -33,6 +33,28 @@ const Wrapper = styled.div`
     }
 `
 
+const TimelineKeyWrapper= styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 16px;
+`
+
+const TimelineItem = styled.div`
+    display: grid;
+    grid-template-columns: 16px auto;
+    column-gap: 10px;
+    align-items: center;
+`
+interface TimelineBoxProps {
+    type: 'idle' | 'service' | 'turnaround'
+}
+
+const TimelineBox = styled.div<TimelineBoxProps>`
+    width: 16px;
+    height: 16px;
+    background-color: ${({ type }) => type === 'idle' ? '#ccc' : type === 'service' ? 'green' : 'purple'}
+`
+
 export const Timeline:FC<Props> = ({ schedule }) => {
     const day = 86400;
 
@@ -70,5 +92,24 @@ export const Timeline:FC<Props> = ({ schedule }) => {
 
     return (
         <Wrapper>{renderTimeline()}</Wrapper>
+    )
+}
+
+export const TimelineKey: FC = () => {
+    return (
+        <TimelineKeyWrapper>
+            <TimelineItem>
+                <TimelineBox type="idle" />
+                idle
+            </TimelineItem>
+            <TimelineItem>
+                <TimelineBox type="service" />
+                in service
+            </TimelineItem>
+            <TimelineItem>
+                <TimelineBox type="turnaround" />
+                turnaround time
+            </TimelineItem>
+        </TimelineKeyWrapper>
     )
 }
