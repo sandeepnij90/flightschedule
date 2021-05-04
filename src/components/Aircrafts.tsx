@@ -68,6 +68,7 @@ const UtilisationBar = styled.div<UtilisationBarProps>`
     position: relative;
     &:after {
         content: '';
+        transition: 0.3s;
         width: ${({ width }) => width || '0'}%;
         height: 5px;
         position: absolute;

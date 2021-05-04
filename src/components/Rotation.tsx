@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FlightsStructure } from './Flights'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlaneDeparture, faPlaneArrival } from '@fortawesome/free-solid-svg-icons';
+import { Timeline } from './Timeline'
 
 const Wrapper = styled.div`
     max-height: 500px;
@@ -87,5 +88,5 @@ export const Rotation:FC<Props>= ({schedule}) => {
         })
     }
 
-    return <Wrapper>{renderRotation()}</Wrapper>
+    return <Wrapper>{renderRotation()} <Timeline schedule={schedule} /></Wrapper>
 }
