@@ -58,7 +58,10 @@ export const App: FC = () => {
     }
 
     const handleSelectFlight = (flight: FlightsStructure ) => {
+        const newAvailableFlights = flights.filter(({ id }) => id !== flight.id)
+
         setSchedule(prevSchedule => [...prevSchedule, flight])
+        setAvailableFlights(newAvailableFlights)
     }
 
     useEffect(() => {
@@ -96,7 +99,11 @@ export const App: FC = () => {
             )
         }
         return (
-            <Flights flights={availableFlights} onSelectFlight={handleSelectFlight} />
+            <Flights
+            flights={availableFlights}
+            onSelectFlight={handleSelectFlight}
+            schedule={schedule}
+            />
         )
     }
 

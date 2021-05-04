@@ -1,8 +1,13 @@
 import React, { FC } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { validateFlight } from '../util/validateFlights' 
 
-const Flight = styled.div`
-  transition: 0.3s;
+interface FlightProps {
+    isDisabled: boolean;
+}
+
+const Flight = styled.div<FlightProps>`
+    transition: 0.3s;
     cursor: pointer;
     padding: 16px;
     border-radius: 8px;
@@ -11,6 +16,10 @@ const Flight = styled.div`
     &:hover {
         background-color: #d3f3f280;
     };
+    ${({ isDisabled }) => isDisabled && css`
+        opacity: 0.3;
+        cursor: default;
+    `}
 `
 
 const Details = styled.div`
@@ -50,7 +59,7 @@ const ID = styled.div`
 
 export interface FlightsStructure {
     id: string;
-    depaturetime: number;
+    departuretime: number;
     arrivaltime: number;
     readable_departure: string;
     readable_arrival: string;
@@ -61,25 +70,34 @@ export interface FlightsStructure {
 interface Props {
     flights: FlightsStructure[];
     onSelectFlight: (flightInfo: FlightsStructure) => void;
+    schedule: FlightsStructure[]
 }
 
-export const Flights: FC<Props> = ({ flights, onSelectFlight }) => {
+export const Flights: FC<Props> = ({ flights, onSelectFlight, schedule }) => {
 
-    const handleSelect = (flight: FlightsStructure) => () => {
-        onSelectFlight(flight)
+    const handleSelect = (flight: FlightsStructure, isDisabled: boolean) => () => {
+        if(!isDisabled) {
+            onSelectFlight(flight)
+        }
+    }
+
+    const getDisabled = (flight: FlightsStructure) => {
+        if (schedule.length) {
+            return validateFlight(flight, schedule[schedule.length -1])
+        }
     }
 
     const renderFlights = () => {
         return flights.map((flight) => {
             return (
-                <Flight key={flight.id} onClick={handleSelect(flight)}>
+                <Flight key={flight.id} onClick={handleSelect(flight, getDisabled(flight))} isDisabled={getDisabled(flight)}>
                     <ID data-testid={`flight-${flight.id}`}>{flight.id}</ID>
-                <Details>
-                    <Departure data-testid={`flight-${flight.id}-departure`}>{flight.origin}</Departure>
-                    <DepartureTime data-testid={`flight-${flight.id}-departure-time`}>{flight.readable_departure}</DepartureTime>
-                    <Arrival data-testid={`flight-${flight.id}-arrival`}>{flight.destination}</Arrival>
-                    <ArrivalTime data-testid={`flight-${flight.id}-arrival-time`}>{flight.readable_arrival}</ArrivalTime>
-                </Details>
+                    <Details>
+                        <Departure data-testid={`flight-${flight.id}-departure`}>{flight.origin}</Departure>
+                        <DepartureTime data-testid={`flight-${flight.id}-departure-time`}>{flight.readable_departure}</DepartureTime>
+                        <Arrival data-testid={`flight-${flight.id}-arrival`}>{flight.destination}</Arrival>
+                        <ArrivalTime data-testid={`flight-${flight.id}-arrival-time`}>{flight.readable_arrival}</ArrivalTime>
+                    </Details>
                 </Flight>
             )
         })
