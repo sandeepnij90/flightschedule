@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { useApi } from '../hooks/useApi'
 import { Aircrafts } from './Aircrafts'
 import { Flights, FlightsStructure } from './Flights'
+import { Rotation } from './Rotation'
 
 const PageWrapper = styled.div`
     width: 100%;
@@ -126,6 +127,7 @@ export const App: FC = () => {
                 </AircraftWrapper>
                 <RotationWrapper>
                     <Title center>Rotation for {getAircraftName()}</Title>
+                    <Rotation schedule={schedule} />
                 </RotationWrapper>
                 <FlightsWrapper>
                     <Title>Flights</Title>
