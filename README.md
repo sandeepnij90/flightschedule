@@ -1,6 +1,6 @@
 # Flight Scheduling Webapp
 
-**Running the project**
+## Running the project
 
 * Install the dependencies`npm install`
 * Run the code `npm run dev`
